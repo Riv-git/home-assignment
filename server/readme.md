@@ -75,4 +75,8 @@ python -m flask run
 
 By default, Flask will run on `http://127.0.0.1:5000`.
 
+### Data to train the model
+
+located in data folder data.zip
+
 ````
