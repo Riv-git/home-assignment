@@ -26,7 +26,11 @@ cd your-repo/backend
 Create a local virtual environment inside your project directory:
 
 ```bash
+mac:
 python3 -m venv venv
+
+windows:
+python -m venv venv
 ```
 
 ---

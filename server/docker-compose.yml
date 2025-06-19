@@ -1,21 +1,4 @@
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-    restart: always
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-    networks:
-      - nehes-network
-
   flask-server:
     build:
       context: .
@@ -24,29 +7,14 @@ services:
     env_file:
       - .env
     environment:
-      - ACCOUNT_SID=${ACCOUNT_SID}
-      - AUTH_TOKEN=${AUTH_TOKEN}
-      - API_KEY_SID=${API_KEY_SID}
-      - API_KEY_SECRET=${API_KEY_SECRET}
-      - TWILIO_NUMBER=${TWILIO_NUMBER}
-      - GOOGLE_SHEET_ID=${GOOGLE_SHEET_ID}
-      - GOOGLE_API_JSON=${GOOGLE_API_JSON}
-      - FLASK_ENV=production
-      - BACKUP_DIR=${BACKUP_DIR}
-      - DB=${DB}
-      - MONGO_URI=${MONGO_URI}
-      - LOCAL_MONGO_URI=${LOCAL_MONGO_URI}
-      - DOCKERHUB_ACCESS_TOKEN=${DOCKERHUB_ACCESS_TOKEN}
+      - FLASK_ENV={FLASK_ENV}
     ports:
-      - "5001:5001"
+      - "5000:5000"
     depends_on:
       - mongodb
     networks:
-      - nehes-network
+      - template-network
 
 networks:
-  nehes-network:
+  template-network:
     driver: bridge
-
-volumes:
-  mongo_data:
