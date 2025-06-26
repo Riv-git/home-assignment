@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<h2>Hello, {{ current_user.username }}!</h2>
+<a class="btn btn-outline-secondary btn-sm mb-3" href="{{ url_for('web.logout') }}">
+  Log out
+</a>
+
+<!-- ───────── Upload form ───────── -->
+<h4>Upload a PDF</h4>
+<form method="post" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+  <div class="mb-3">
+    {{ form.file(class="form-control") }}
+  </div>
+  {{ form.submit(class="btn btn-primary") }}
+</form>
+
+<hr>
+
+<!-- ───────── Document list ───────── -->
+<h4>Your documents</h4>
+<ul class="list-group">
+  {% for d in docs %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span>
+        {{ d.filename }} – {{ d.pages }} pages
+        {% if d.pages %}
+          • <a href="{{ url_for('web.preview', doc_id=d.id, page=1) }}" target="_blank">
+              preview
+            </a>
+        {% endif %}
+      </span>
+
+      <a class="btn btn-sm btn-outline-primary"
+         href="{{ url_for('web.count_figures', doc_id=d.id) }}">
+        Count figures
+      </a>
+    </li>
+  {% else %}
+    <li class="list-group-item">No uploads yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

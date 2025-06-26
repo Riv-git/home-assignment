@@ -2,11 +2,12 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 from flask_cors import CORS
-
+from flask import Blueprint
 from models import db
 from routes.base_routes import base_bp
 from routes.auth_routes import auth_bp
 from routes.pdf_routes  import pdf_bp
+from routes.web_routes  import web_bp, login_manager
 
 load_dotenv()
 
@@ -19,6 +20,7 @@ def create_app():
     CORS(app, origins="*")
 
     db.init_app(app)
+    login_manager.init_app(app)
     with app.app_context():
         db.create_all()
 
@@ -26,6 +28,7 @@ def create_app():
     app.register_blueprint(base_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(pdf_bp)
+    app.register_blueprint(web_bp)
     return app
 
 app = create_app()

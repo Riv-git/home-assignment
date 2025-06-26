@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Counts – {{ doc.filename }}{% endblock %}
+{% block body %}
+<h2>{{ doc.filename }}</h2>
+<p>
+  <a class="btn btn-sm btn-secondary" href="{{ url_for('web.dashboard') }}">&laquo; back</a>
+  <a class="btn btn-sm btn-success"  href="{{ url_for('web.download_csv', doc_id=doc.id) }}">
+    Download CSV
+  </a>
+</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Page</th>
+      {% for h in headers %}<th>{{ h.capitalize() }}</th>{% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr>
+      <td>{{ row.page }}</td>
+      {% for h in headers %}<td>{{ row[h] }}</td>{% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
